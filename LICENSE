@@ -1,0 +1,25 @@
+Lightweight Music Source Separation — Results
+Evaluation License
+
+Copyright (c) 2026. All rights reserved.
+
+This distribution contains sample audio files, evaluation results and figures
+("the Materials"). Permission is granted to view and listen to the Materials for
+the sole purpose of personal, non-commercial EVALUATION.
+
+You may NOT:
+  - use the Materials, in whole or in part, in any commercial product or
+    service;
+  - redistribute, sublicense, sell, or host the sample audio for others to
+    download.
+
+THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE
+FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THE
+MATERIALS.
+
+The music excerpt in listening/ is derived from the MUSDB18-HQ test set
+(Rafii et al., 2019) and is included solely for non-commercial research
+demonstration; all rights in the recording remain with the original artists.
+See README.md for the attribution.

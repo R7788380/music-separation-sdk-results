@@ -1,0 +1,38 @@
+{
+ "mixture": {
+  "song": 6.53,
+  "excerpt": 9.31
+ },
+ "vocals_L": {
+  "song": 11.15,
+  "excerpt": 11.23
+ },
+ "vocals_M": {
+  "song": 11.09,
+  "excerpt": 11.3
+ },
+ "vocals_S": {
+  "song": 10.28,
+  "excerpt": 10.39
+ },
+ "vocals_XS": {
+  "song": 9.69,
+  "excerpt": 10.16
+ },
+ "accomp_L": {
+  "song": 20.43,
+  "excerpt": 20.95
+ },
+ "accomp_M": {
+  "song": 20.33,
+  "excerpt": 20.88
+ },
+ "accomp_S": {
+  "song": 19.31,
+  "excerpt": 19.9
+ },
+ "accomp_XS": {
+  "song": 18.65,
+  "excerpt": 19.11
+ }
+}

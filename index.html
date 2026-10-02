@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music Source Separation — Listening Test</title>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1f2328; --muted: #656d76; --line: #d0d7de; --card: #f6f8fa; --accent: #0969da;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8d96a0; --line: #30363d; --card: #161b22; --accent: #4493f8; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, "Noto Sans TC", sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 1.7rem; margin: 0 0 6px; }
+  h2 { font-size: 1.25rem; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 1.05rem; margin: 28px 0 10px; }
+  p.lead { color: var(--muted); margin: 0 0 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin: 14px 0; }
+  figure { margin: 0 0 12px; }
+  figure img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); background: #fff; }
+  figure.spec img { background: #000; }
+  figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 7px 8px; border-top: 1px solid var(--line); vertical-align: middle; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.85rem; }
+  td.label { width: 36%; }
+  td.label b { display: block; }
+  td.label span { display: block; color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  audio { width: 100%; max-width: 420px; height: 34px; }
+  .tag { display: inline-block; font-size: 0.75rem; padding: 1px 7px; border: 1px solid var(--line);
+         border-radius: 999px; color: var(--muted); margin-left: 6px; vertical-align: middle; }
+  tr.enh td.label b { color: var(--accent); }
+  .scroll { overflow-x: auto; }
+  table.results { min-width: 560px; font-size: 0.9rem; }
+  table.results th, table.results td { white-space: nowrap; }
+  table.results td.num { font-variant-numeric: tabular-nums; }
+  table.results tr.enh td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  table.results tr.enh td.sys { color: var(--accent); font-weight: 600; }
+  table.results tr.group td { border-top: 2px solid var(--line); }
+  table.results td.total, table.results tr.total td { font-weight: 600; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 14px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Lightweight Music Source Separation — Listening Test</h1>
+  <p class="lead">
+    Vocals and accompaniment separated from a 44.1 kHz stereo mix by one model family at four sizes
+    (1.35 – 5.7 MB deployed, INT8 weights). Accompaniment is the mixture minus the separated vocals, so a
+    single model gives both stems. The clip is a 20 s excerpt (1:35 – 1:55) of <i>Juliet's Rescue – Heartbeats</i>
+    from the MUSDB18-HQ test set, which was never used in training. Use headphones.
+  </p>
+
+  <h2>Objective evaluation</h2>
+  <p class="lead">
+    MUSDB18-HQ test set, all 50 songs. cSDR is the median of the 1 s chunk SDRs pooled over all songs.
+    Offline inference uses 12 s windows with 75 % overlap. ↑ higher is better.
+  </p>
+  <div class="card">
+    <div class="scroll">
+      <table class="results">
+        <thead>
+          <tr><th>Size</th><th>Params</th><th>GMACs / 2 s audio</th><th>Size INT8</th><th>Vocals cSDR FP32</th><th>Vocals cSDR INT8 ↑</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group enh"><td class="sys">L</td><td class="num">≈ 5.5 M</td><td class="num">38.8</td><td class="num">5.72 MB</td><td class="num">10.95</td><td class="num">10.93</td></tr>
+          <tr><td class="sys">M</td><td class="num">≈ 4.2 M</td><td class="num">31.6</td><td class="num">4.42 MB</td><td class="num">10.81</td><td class="num">10.79</td></tr>
+          <tr><td class="sys">S</td><td class="num">≈ 2.6 M</td><td class="num">16.2</td><td class="num">2.75 MB</td><td class="num">9.95</td><td class="num">9.94</td></tr>
+          <tr class="enh"><td class="sys">XS</td><td class="num">≈ 1.2 M</td><td class="num">7.16</td><td class="num">1.35 MB</td><td class="num">9.13</td><td class="num">9.13</td></tr>
+          <tr class="group"><td class="sys">DTTNet (public weights, re-scored)</td><td class="num">≈ 5.0 M</td><td class="num">–</td><td class="num">4.97 MB</td><td class="num">10.13</td><td class="num">10.11</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <figure>
+      <img src="results/figures/quality_vs_size.png" alt="Vocals cSDR versus deployed model size for sizes L, M, S, XS and the DTTNet baseline" loading="lazy">
+      <figcaption>M keeps L's quality within 0.14 dB. XS keeps 9.13 dB at a quarter of the size.</figcaption>
+    </figure>
+  </div>
+  <div class="card">
+    <figure>
+      <img src="results/figures/window_length.png" alt="Vocals cSDR versus analysis window length for sizes L and XS" loading="lazy">
+      <figcaption>Streaming: shorter windows give less musical context. A 2 s window is the knee for both sizes.
+      Accompaniment as mixture − vocals scores 20.01 dB cSDR for L (INT8), higher than a dedicated accompaniment model.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Listening clips</h2>
+  <p class="lead">
+    Scores are cSDR against the reference stem: for the full song, and for the 20 s excerpt behind the players.
+  </p>
+  <div class="card">
+    <h3>Vocals <span class="tag">20 s excerpt · 44.1 kHz stereo</span></h3>
+    <figure class="spec"><img src="results/figures/spec_vocals.png" alt="Spectrograms: mixture, reference, sizes L, M, S, XS" loading="lazy"><figcaption>Top to bottom: mixture · reference · L · M · S · XS (0–11 kHz, 80 dB range; cSDR in the labels is for the full song).</figcaption></figure>
+    <table>
+      <tr><td class="label"><b>Mixture</b><span>MUSDB18-HQ test set</span></td><td><audio controls preload="none" src="listening/mixture.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>L</b><span>INT8 weights · ≈ 5.5 M params · 5.72 MB</span><span>cSDR song 11.15 · excerpt 11.23 dB</span></td><td><audio controls preload="none" src="listening/vocals_L.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>M</b><span>INT8 weights · ≈ 4.2 M params · 4.42 MB</span><span>cSDR song 11.09 · excerpt 11.30 dB</span></td><td><audio controls preload="none" src="listening/vocals_M.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>S</b><span>INT8 weights · ≈ 2.6 M params · 2.75 MB</span><span>cSDR song 10.28 · excerpt 10.39 dB</span></td><td><audio controls preload="none" src="listening/vocals_S.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>XS</b><span>INT8 weights · ≈ 1.2 M params · 1.35 MB · smallest</span><span>cSDR song 9.69 · excerpt 10.16 dB</span></td><td><audio controls preload="none" src="listening/vocals_XS.wav"></audio></td></tr>
+      <tr><td class="label"><b>Reference vocals</b><span>reference stem</span></td><td><audio controls preload="none" src="listening/vocals_ref.wav"></audio></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Accompaniment <span class="tag">20 s excerpt · 44.1 kHz stereo</span></h3>
+    <figure class="spec"><img src="results/figures/spec_accompaniment.png" alt="Spectrograms: mixture, reference, sizes L, M, S, XS" loading="lazy"><figcaption>Top to bottom: mixture · reference · L · M · S · XS (0–11 kHz, 80 dB range; cSDR in the labels is for the full song).</figcaption></figure>
+    <table>
+      <tr><td class="label"><b>Mixture</b><span>MUSDB18-HQ test set</span><span>cSDR as accompaniment: song 6.53 · excerpt 9.31 dB</span></td><td><audio controls preload="none" src="listening/mixture.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>L</b><span>INT8 weights · ≈ 5.5 M params · 5.72 MB</span><span>cSDR song 20.43 · excerpt 20.95 dB</span></td><td><audio controls preload="none" src="listening/accomp_L.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>M</b><span>INT8 weights · ≈ 4.2 M params · 4.42 MB</span><span>cSDR song 20.33 · excerpt 20.88 dB</span></td><td><audio controls preload="none" src="listening/accomp_M.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>S</b><span>INT8 weights · ≈ 2.6 M params · 2.75 MB</span><span>cSDR song 19.31 · excerpt 19.90 dB</span></td><td><audio controls preload="none" src="listening/accomp_S.wav"></audio></td></tr>
+      <tr class="enh"><td class="label"><b>XS</b><span>INT8 weights · ≈ 1.2 M params · 1.35 MB · smallest</span><span>cSDR song 18.65 · excerpt 19.11 dB</span></td><td><audio controls preload="none" src="listening/accomp_XS.wav"></audio></td></tr>
+      <tr><td class="label"><b>Reference accompaniment</b><span>reference stem</span></td><td><audio controls preload="none" src="listening/accomp_ref.wav"></audio></td></tr>
+    </table>
+  </div>
+  <footer>
+    Music excerpt: <i>Juliet's Rescue – Heartbeats</i>, MUSDB18-HQ test set (Rafii et al., 2019, doi:10.5281/zenodo.3338373),
+    used for non-commercial research demonstration only; rights remain with the original artists.
+    Tables: <code>README.md</code> and <code>results/</code> in the repository.
+  </footer>
+</main>
+</body>
+</html>
